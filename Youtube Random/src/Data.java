@@ -1,6 +1,6 @@
 /*  https://developers.google.com/youtube/2.0/developers_guide_protocol_comments#Retrieve_comments
  * 
- * 
+ * <openSearch:totalResults>
  * https://gdata.youtube.com/feeds/api/videos/mE6tHm7dxrQ/comments?v=2&start-index=1&max-results=50&prettyprint=true
  * 
  * 
@@ -33,6 +33,8 @@ public class Data extends YRandom {
 	private int rDuplicatesCount;
 	private Map<String, String> map;
 	private ArrayList<People> people;
+	//private ArrayList<String> numberOfComments;
+	private int numberOfComments;
 
 
 	// Constructor
@@ -49,6 +51,9 @@ public class Data extends YRandom {
 		this.min = 1;
 		this.max = 50;
 		count3 = 0;
+		//numberOfComments = new ArrayList<String>();
+		numberOfComments = 0;
+		
 	}
 
 	public void getData() throws IOException{
@@ -68,6 +73,13 @@ public class Data extends YRandom {
 				authorText.add(element.text());
 				count++;
 			}
+		}
+		
+		Elements commentNumb = doc.select("openSearch|totalResults");
+		for (Element element :commentNumb){
+			//this.numberOfComments.add(element.text());
+			this.numberOfComments = Integer.valueOf(element.text());
+			System.out.println("Number of comments: " + this.numberOfComments);
 		}
 
 		//Get the yt:channelId tag from the xml
